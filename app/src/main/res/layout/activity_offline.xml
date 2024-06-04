@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.aircraftwar2024.activity.OfflineActivity">
+
+    <!-- 文本框，内容为“单机模式难度选择” -->
+    <TextView
+        android:id="@+id/difficultyText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="单机模式难度选择"
+        android:textColor="#000000"
+        android:textSize="28sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/easyModeButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="180dp" />
+
+    <!-- 简单模式按钮 -->
+    <Button
+        android:id="@+id/easyModeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="简单模式"
+        android:textColor="#FFFFFF"
+        app:layout_constraintTop_toBottomOf="@+id/difficultyText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="30dp" />
+
+    <!-- 普通模式按钮 -->
+    <Button
+        android:id="@+id/normalModeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="普通模式"
+        android:textColor="#FFFFFF"
+        app:layout_constraintTop_toBottomOf="@+id/easyModeButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp" />
+
+    <!-- 困难模式按钮 -->
+    <Button
+        android:id="@+id/hardModeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="困难模式"
+        android:textColor="#FFFFFF"
+        app:layout_constraintTop_toBottomOf="@+id/normalModeButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

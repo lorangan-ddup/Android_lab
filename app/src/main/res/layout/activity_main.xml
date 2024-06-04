@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.aircraftwar2024.activity.MainActivity">
+
+    <!-- 全屏的ImageView控件，设置背景图片为bg_start.jpg -->
+    <ImageView
+        android:id="@+id/bgImage"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bg_start"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- "单机游戏"按钮 -->
+    <Button
+        android:id="@+id/singlePlayerButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="单机游戏"
+        android:textColor="#FFFFFF"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/multiPlayerButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="联机游戏"
+        android:textColor="#FFFFFF"
+        app:layout_constraintTop_toBottomOf="@+id/singlePlayerButton"
+        app:layout_constraintBottom_toTopOf="@+id/musicRadioGroup"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- 一组单选按钮，名为“开启音乐”和“关闭音乐” -->
+    <RadioGroup
+        android:id="@+id/musicRadioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/multiPlayerButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp">
+
+        <RadioButton
+            android:id="@+id/musicOn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="开启音乐"
+            android:textColor="#FFFFFF" />
+
+        <RadioButton
+            android:id="@+id/musicOff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="关闭音乐"
+            android:textColor="#FFFFFF"
+            android:checked="true" />
+
+    </RadioGroup>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
