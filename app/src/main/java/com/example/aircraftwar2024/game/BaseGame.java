@@ -1,7 +1,5 @@
 package com.example.aircraftwar2024.game;
 
-
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -33,7 +31,10 @@ import com.example.aircraftwar2024.factory.enemy_factory.BossFactory;
 import com.example.aircraftwar2024.factory.enemy_factory.EliteFactory;
 import com.example.aircraftwar2024.factory.enemy_factory.EnemyFactory;
 import com.example.aircraftwar2024.factory.enemy_factory.MobFactory;
+import com.example.aircraftwar2024.music.MyMediaPlayer;
+import com.example.aircraftwar2024.music.MySoundPool;
 import com.example.aircraftwar2024.supply.AbstractFlyingSupply;
+import com.example.aircraftwar2024.supply.BombSupply;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -146,11 +147,17 @@ public abstract class BaseGame extends SurfaceView implements SurfaceHolder.Call
     private Context context;
     private Handler handler;
     User user;
+    public static boolean isSoundOn = true; // 假设音效开关默认为开
+    private MySoundPool mySoundPool;
+    private MyMediaPlayer myMediaPlayer;
     public BaseGame(Context context,Handler handler) throws IOException, ClassNotFoundException {
         super(context);
 
         this.context = context;
         this.handler = handler;
+        // 初始化 MySoundPool 和 MyMediaPlayer
+        mySoundPool = new MySoundPool(context, isSoundOn);
+        myMediaPlayer = new MyMediaPlayer(context);
 
         mbLoop = true;
         mPaint = new Paint();  //设置画笔
@@ -173,6 +180,8 @@ public abstract class BaseGame extends SurfaceView implements SurfaceHolder.Call
         bossEnemyFactory = new BossFactory();
 
         heroController();
+        // 在游戏开始时播放背景音乐
+        if(isSoundOn)myMediaPlayer.playBackgroundMusic();
     }
     private void heroShootAction() {
         // 英雄射击
@@ -248,6 +257,7 @@ public abstract class BaseGame extends SurfaceView implements SurfaceHolder.Call
         if (this.getScore() >= bossScoreThreshold && !this.existBoss()) {
             bossScoreThreshold += bossScoreThreshold;
             res.add(bossEnemyFactory.createEnemyAircraft(bossLevel));
+            if(isSoundOn)myMediaPlayer.playBossMusic();
         }
         return res;
     }
@@ -260,6 +270,7 @@ public abstract class BaseGame extends SurfaceView implements SurfaceHolder.Call
                 return true;
             }
         }
+
         return false;
     }
 
@@ -367,6 +378,7 @@ public abstract class BaseGame extends SurfaceView implements SurfaceHolder.Call
             }
             if (heroAircraft.crash(bullet)) {
                 heroAircraft.decreaseHp(bullet.getPower());
+                if(isSoundOn)mySoundPool.playBulletHitSound();
                 bullet.vanish();
             }
         }
@@ -378,6 +390,10 @@ public abstract class BaseGame extends SurfaceView implements SurfaceHolder.Call
             }
             for (AbstractEnemyAircraft enemyAircraft : enemyAircrafts) {
                 if (enemyAircraft.notValid()) {
+                    if(isSoundOn&&enemyAircraft instanceof BossEnemy){
+                        myMediaPlayer.stopBossMusic();
+                        myMediaPlayer.playBackgroundMusic();
+                    }
                     // 已被其他子弹击毁的敌机，不再检测
                     // 避免多个子弹重复击毁同一敌机的判定
                     continue;
@@ -386,6 +402,7 @@ public abstract class BaseGame extends SurfaceView implements SurfaceHolder.Call
                     // 敌机撞击到英雄机子弹
                     // 敌机损失一定生命值
                     enemyAircraft.decreaseHp(bullet.getPower());
+                    if(isSoundOn)mySoundPool.playBulletHitSound();
                     bullet.vanish();
                     if (enemyAircraft.notValid()) {
                         //获得分数，产生道具补给
@@ -408,6 +425,12 @@ public abstract class BaseGame extends SurfaceView implements SurfaceHolder.Call
             }
             if (heroAircraft.crash(flyingSupply) || flyingSupply.crash(heroAircraft)) {
                 flyingSupply.activate();
+                if(isSoundOn)
+                {
+                    if(flyingSupply instanceof BombSupply){
+                        mySoundPool.playBombExplosionSound();
+                    }else mySoundPool.playGetSupplySound();
+                }
                 flyingSupply.vanish();
             }
         }
@@ -439,6 +462,11 @@ public abstract class BaseGame extends SurfaceView implements SurfaceHolder.Call
             gameOverFlag = true;
             System.out.println("Game Over!");
             Log.i(TAG, "heroAircraft is not Valid");
+            if(isSoundOn){
+                myMediaPlayer.stopBackgroundMusic();
+                myMediaPlayer.stopBossMusic();
+                mySoundPool.playGameOverSound();
+            }
             /*if(needMusic){
                 music.gameOverbgm();
                 music.stopBgm();

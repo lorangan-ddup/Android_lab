@@ -9,6 +9,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.aircarftwar2024.R;
+import com.example.aircraftwar2024.game.BaseGame;
 
 public class OfflineActivity extends AppCompatActivity {
     public static int gameType=0;
@@ -28,9 +29,12 @@ public class OfflineActivity extends AppCompatActivity {
         if (isMusicOn) {
             // 启动音乐
             Toast.makeText(this, "音乐已开启", Toast.LENGTH_SHORT).show();
+            BaseGame.isSoundOn = true;
+
         } else {
             // 停止音乐
             Toast.makeText(this, "音乐已关闭", Toast.LENGTH_SHORT).show();
+            BaseGame.isSoundOn = false;
         }
 
         easyModeButton.setOnClickListener(new View.OnClickListener() {

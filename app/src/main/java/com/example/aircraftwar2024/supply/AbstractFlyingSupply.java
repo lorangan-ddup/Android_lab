@@ -29,7 +29,6 @@ public abstract class AbstractFlyingSupply extends AbstractFlyingObject {
 
     /**
      * 道具生效
-     * @param game
      */
     public abstract void activate() throws InterruptedException;
 
